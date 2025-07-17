@@ -1,0 +1,10 @@
+package database;
+
+import model.OrderItem;
+import java.util.List;
+
+public interface OrderItemDAO {
+    List<OrderItem> getOrderItemsByVendorId(int vendId);
+    OrderItem getOrderItemById(int orderItemId);
+    boolean updateOrderItemStatus(int orderItemId, String status);
+}
