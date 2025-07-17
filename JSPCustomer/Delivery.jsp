@@ -1,37 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, controller.CartItem" %>
-<%@ page import="javax.servlet.http.HttpSession" %>
-
-<%
-    HttpSession currentSession = request.getSession(false);
-    List<CartItem> cart = (currentSession != null) ? (List<CartItem>) currentSession.getAttribute("cart") : null;
-
-    if (cart == null || cart.isEmpty()) {
-        response.sendRedirect("viewCart.jsp");
-        return;
-    }
-
-    double subtotal = 0.0;
-    for (CartItem item : cart) {
-        subtotal += item.getPrice() * item.getQuantity();
-    }
-
-    // Convert Java cart list to a JavaScript JSON-safe string
-    StringBuilder jsCartArray = new StringBuilder("[");
-    for (int i = 0; i < cart.size(); i++) {
-        CartItem item = cart.get(i);
-        jsCartArray.append(String.format(
-            "{\"productId\":%d,\"vendorId\":%d,\"productName\":\"%s\",\"productDescription\":\"%s\",\"price\":%.2f,\"quantity\":%d}",
-            item.getProductId(), item.getVendorId(),
-            item.getProductName().replace("\"", "\\\""),
-            item.getProductDescription().replace("\"", "\\\""),
-            item.getPrice(), item.getQuantity()
-        ));
-        if (i < cart.size() - 1) jsCartArray.append(",");
-    }
-    jsCartArray.append("]");
-%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,101 +10,166 @@
         textarea { width: 100%; }
     </style>
     <script>
-        const BACKEND_BASE_URL = "http://localhost:8080/your-backend-app/api";
+    function showPopup(message, type = "success") {
+        const popup = document.createElement("div");
+        popup.innerText = message;
+        popup.style.position = "fixed";
+        popup.style.bottom = "20px";
+        popup.style.right = "20px";
+        popup.style.backgroundColor = (type === "error") ? "#dc3545" : "#28a745";
+        popup.style.color = "white";
+        popup.style.padding = "10px 20px";
+        popup.style.borderRadius = "8px";
+        popup.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
+        popup.style.zIndex = "9999";
+        popup.style.fontWeight = "bold";
+        document.body.appendChild(popup);
+        setTimeout(() => popup.remove(), 3000);
+    }
 
-        function toggleCardFields() {
-            const method = document.querySelector('input[name="paymentMethod"]:checked').value;
-            const ccvField = document.getElementById("ccvField");
-            const ccvInput = document.getElementById("ccvInput");
+    function toggleCardFields() {
+        const method = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+        const ccvField = document.getElementById("ccvField");
+        const ccvInput = document.getElementById("ccvInput");
+        if (method === "Card") {
+            ccvField.style.display = "block";
+            ccvInput.setAttribute("required", "required");
+        } else {
+            ccvField.style.display = "none";
+            ccvInput.removeAttribute("required");
+        }
+    }
 
-            if (method === "card") {
-                ccvField.style.display = "block";
-                ccvInput.setAttribute("required", "required");
-            } else {
-                ccvField.style.display = "none";
-                ccvInput.removeAttribute("required");
-            }
+    async function checkDeliveryFee() {
+        const address = document.getElementById("address").value.trim();
+        const deliveryType = document.getElementById("deliveryType").value;
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+        const userData = JSON.parse(localStorage.getItem("userData"));
+
+        if (!address || !userData?.custId) {
+            showPopup("⚠️ Fill in address or login again", "error");
+            return;
         }
 
-        function calculateTotal() {
-            const deliveryType = document.getElementById("deliveryType").value;
-            const fee = (deliveryType === "express") ? 5.00 : 2.00;
-            document.getElementById("deliveryFee").innerText = fee.toFixed(2);
-            const subtotal = parseFloat(document.getElementById("subtotal").value);
-            document.getElementById("totalAmount").innerText = (subtotal + fee).toFixed(2);
-        }
-
-        async function submitOrder(event) {
-            event.preventDefault();
-
-            const address = document.getElementById("address").value.trim();
-            const deliveryType = document.getElementById("deliveryType").value;
-            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-            const ccv = document.getElementById("ccvInput").value;
-            const subtotal = parseFloat(document.getElementById("subtotal").value);
-            const deliveryFee = deliveryType === "express" ? 5.00 : 2.00;
-            const total = subtotal + deliveryFee;
-
-            const customerId = sessionStorage.getItem("custId");
-            const custName = sessionStorage.getItem("custName");
-            const cart = JSON.parse(sessionStorage.getItem("cartSummary") || "[]");
-
-            if (!customerId || cart.length === 0) {
-                alert("Session expired or cart is empty.");
-                window.location.href = "login.jsp";
-                return;
-            }
-
-            const payload = {
-                custId: customerId,
-                address,
-                deliveryType,
-                paymentMethod,
-                ccv,
-                subtotal,
-                deliveryFee,
-                totalAmount: total,
-                cartItems: cart
-            };
-
-            try {
-                const response = await fetch(`${BACKEND_BASE_URL}/order`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-
-                if (response.ok) {
-                    // Store confirmation summary
-                    sessionStorage.setItem("confirmedAddress", address);
-                    sessionStorage.setItem("deliveryType", deliveryType);
-                    sessionStorage.setItem("paymentMethod", paymentMethod);
-                    sessionStorage.setItem("deliveryFee", deliveryFee.toFixed(2));
-                    sessionStorage.setItem("orderTotal", total.toFixed(2));
-                    sessionStorage.setItem("cartSummary", JSON.stringify(cart));
-
-                    // Optional: clear cart on success
-                    sessionStorage.removeItem("cart");
-
-                    alert("✅ Order placed successfully!");
-                    window.location.href = "orderConfirmation.jsp";
-                } else {
-                    const result = await response.json();
-                    alert("❌ Error placing order: " + (result.message || "Unknown error"));
-                }
-
-            } catch (err) {
-                console.error("Submit order error:", err);
-                alert("❌ Could not connect to the backend.");
-            }
-        }
-
-        window.onload = function () {
-            toggleCardFields();
-            calculateTotal();
-            const cartFromServer = <%= jsCartArray.toString() %>;
-            sessionStorage.setItem("cartSummary", JSON.stringify(cartFromServer));
+        const deliveryPayload = {
+            address,
+            deliveryType,
+            paymentMethod,
+            custId: userData.custId
         };
+
+        try {
+            const response = await fetch("http://192.168.0.54:8080/eBazaarBackend/api/delivery", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(deliveryPayload)
+            });
+
+            const result = await response.json();
+            if (!result.deliveryId) throw new Error("Invalid delivery response");
+
+            sessionStorage.setItem("deliveryId", result.deliveryId);
+            localStorage.setItem("orderSubtotal", result.subtotal);
+            localStorage.setItem("deliveryFee", result.deliveryFee);
+            localStorage.setItem("grandTotal", result.grandTotal);
+
+            document.getElementById("subtotalDisplay").innerText = result.subtotal;
+            document.getElementById("deliveryFee").innerText = result.deliveryFee;
+            document.getElementById("totalAmount").innerText = result.grandTotal;
+            document.getElementById("subtotal").value = result.subtotal;
+
+            showPopup("✅ Delivery fee calculated!");
+        } catch (err) {
+            showPopup("❌ Failed to calculate delivery fee", "error");
+        }
+    }
+
+    async function submitOrder(event) {
+        event.preventDefault();
+
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const deliveryId = sessionStorage.getItem("deliveryId");
+        const address = document.getElementById("address").value.trim();
+        const deliveryType = document.getElementById("deliveryType").value;
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+        if (!userData?.custId || !deliveryId) {
+            showPopup("⚠️ Missing customer or delivery data", "error");
+            return;
+        }
+
+        try {
+            // Save cart before placing order
+            const cartRes = await fetch("http://192.168.0.54:8080/eBazaarBackend/api/cart?custId=" + userData.custId);
+            const cartItems = await cartRes.json();
+            localStorage.setItem("cartSummary", JSON.stringify(cartItems));
+
+            // Save order info to localStorage
+            localStorage.setItem("confirmedAddress", address);
+            localStorage.setItem("deliveryType", deliveryType);
+            localStorage.setItem("paymentMethod", paymentMethod);
+
+            const orderResponse = await fetch("http://192.168.0.54:8080/eBazaarBackend/api/order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    custId: userData.custId,
+                    deliveryId: parseInt(deliveryId)
+                })
+            });
+
+            const orderResult = await orderResponse.json();
+
+            if (orderResponse.ok && orderResult.orderId) {
+                localStorage.setItem("orderId", orderResult.orderId);
+                const grandTotal = localStorage.getItem("grandTotal") || "0.00";
+                localStorage.setItem("orderTotal", grandTotal);
+                localStorage.setItem("custName", userData.custName || "Customer");
+
+                sessionStorage.removeItem("deliveryId");
+
+                showPopup("✅ Order placed!");
+                setTimeout(() => {
+                    window.location.href = "orderConfirmation.jsp";
+                }, 2000);
+            } else {
+                showPopup("❌ Order failed", "error");
+            }
+        } catch (err) {
+            showPopup("❌ Could not connect to server", "error");
+        }
+    }
+
+    window.onload = async function () {
+        toggleCardFields();
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        if (!userData?.custId) {
+            showPopup("⚠️ Session expired. Login again.", "error");
+            window.location.href = "login.jsp";
+            return;
+        }
+
+        try {
+            const res = await fetch("http://192.168.0.54:8080/eBazaarBackend/api/cart?custId=" + userData.custId);
+            const cartItems = await res.json();
+            let subtotal = 0;
+            cartItems.forEach(item => subtotal += item.price * item.quantity);
+
+            const deliveryFee = localStorage.getItem("deliveryFee") || "0.00";
+            const grandTotal = (subtotal + parseFloat(deliveryFee)).toFixed(2);
+
+            localStorage.setItem("orderSubtotal", subtotal.toFixed(2));
+            localStorage.setItem("grandTotal", grandTotal);
+
+            document.getElementById("subtotalDisplay").innerText = subtotal.toFixed(2);
+            document.getElementById("deliveryFee").innerText = deliveryFee;
+            document.getElementById("totalAmount").innerText = grandTotal;
+            document.getElementById("subtotal").value = subtotal.toFixed(2);
+
+        } catch (err) {
+            showPopup("❌ Could not load cart", "error");
+        }
+    };
     </script>
 </head>
 <body>
@@ -145,33 +177,32 @@
 <h2>🚚 Delivery & 💳 Payment</h2>
 
 <form onsubmit="submitOrder(event)">
-    <input type="hidden" id="subtotal" name="subtotal" value="<%= subtotal %>">
+    <input type="hidden" id="subtotal" name="subtotal" value="0.00">
 
     <label><strong>Delivery Address:</strong></label>
-    <textarea id="address" name="address" rows="3" required placeholder="Enter your delivery address..."></textarea>
+    <textarea id="address" rows="3" required placeholder="Enter your delivery address..."></textarea>
 
     <label><strong>Delivery Type:</strong></label>
-    <select id="deliveryType" name="deliveryType" onchange="calculateTotal()">
-        <option value="standard">Standard (RM2.00)</option>
-        <option value="express">Express (RM5.00)</option>
+    <select id="deliveryType">
+        <option value="Standard">Standard</option>
+        <option value="Express">Express</option>
     </select>
 
     <label><strong>Payment Method:</strong></label>
-    <label><input type="radio" name="paymentMethod" value="cash" checked onclick="toggleCardFields()"> Cash</label>
-    <label><input type="radio" name="paymentMethod" value="card" onclick="toggleCardFields()"> Card</label>
+    <label><input type="radio" name="paymentMethod" value="Cash" checked onclick="toggleCardFields()"> Cash</label>
+    <label><input type="radio" name="paymentMethod" value="Card" onclick="toggleCardFields()"> Card</label>
 
-    <div id="ccvField" style="display: none; margin-top: 10px;">
-        <label>Enter CCV (3 digits):
-            <input type="text" id="ccvInput" name="ccv" maxlength="3" pattern="[0-9]{3}" placeholder="e.g. 123">
+    <div id="ccvField" style="display: none;">
+        <label>Enter CCV:
+            <input type="text" id="ccvInput" maxlength="3" pattern="[0-9]{3}">
         </label>
     </div>
 
+    <br><button type="button" onclick="checkDeliveryFee()">🚚 Check Delivery Fee</button>
     <hr>
-
-    <p><strong>Subtotal:</strong> RM <%= String.format("%.2f", subtotal) %></p>
+    <p><strong>Subtotal:</strong> RM <span id="subtotalDisplay">0.00</span></p>
     <p><strong>Delivery Fee:</strong> RM <span id="deliveryFee">0.00</span></p>
     <p><strong>Grand Total:</strong> RM <span id="totalAmount">0.00</span></p>
-
     <br><button type="submit">✅ Place Order</button>
 </form>
 
