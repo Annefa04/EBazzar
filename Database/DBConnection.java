@@ -2,42 +2,45 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBConnection {
 
-    // Database Configuration
+    // Configuration
     private static final String URL = "jdbc:mysql://localhost:3306/";
-    private static final String DBNAME = "ebazaar";
+    private static final String DB_NAME = "ebazaar";
     private static final String USER = "root";
-    private static final String PASSWORD = ""; // If you use "root", change this
+    private static final String PASSWORD = ""; // Change this if needed
     private static final String PARAMS = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Load once when class loads
+            System.out.println("🔄 JDBC Driver loaded.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("❌ MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        }
+    }
+
     /**
-     * Get a connection to the MySQL database.
+     * Get a database connection.
      */
     public static Connection getConnection() {
         Connection conn = null;
+        String fullURL = URL + DB_NAME + PARAMS;
         try {
-            // Load MySQL JDBC driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // Build full JDBC URL
-            String fullURL = URL + DBNAME + PARAMS;
-            System.out.println("🔍 Connecting to: " + fullURL + " with user: " + USER);
-
-            // Try to connect
             conn = DriverManager.getConnection(fullURL, USER, PASSWORD);
-            System.out.println("✅ DB connection successful.");
-        } catch (Exception e) {
-            System.out.println("❌ Failed to connect to database:");
+            System.out.println("✅ Connected to DB: " + fullURL);
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to connect to DB:");
             e.printStackTrace();
         }
-
         return conn;
     }
 
     /**
-     * Close the connection safely.
+     * Disconnect from the database safely.
      */
     public static void disconnect(Connection conn) {
         try {
@@ -45,24 +48,22 @@ public class DBConnection {
                 conn.close();
                 System.out.println("🔌 Connection closed.");
             }
-        } catch (Exception e) {
-            System.out.println("⚠️ Error while closing connection:");
+        } catch (SQLException e) {
+            System.out.println("⚠️ Error closing DB connection:");
             e.printStackTrace();
         }
     }
 
     /**
-     * Test method - run this to test the DB connection from Eclipse
+     * Test the DB connection.
      */
     public static void main(String[] args) {
         Connection conn = getConnection();
-
         if (conn != null) {
-            System.out.println("✅ Connected to MySQL database.");
+            System.out.println("✅ Test connection successful.");
         } else {
-            System.out.println("❌ Not Connected. Please check DB config.");
+            System.out.println("❌ Test connection failed.");
         }
-
         disconnect(conn);
     }
 }
