@@ -1,7 +1,7 @@
 package controller;
 
-import database.OrderItemDAO;
-import database.impl.OrderItemDAOImpl;
+import database.OrderItemVendorDAO;
+import database.impl.OrderItemVendorDAOImpl;
 import database.DBConnection;
 import model.OrderItem;
 
@@ -11,6 +11,8 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @WebServlet("/updateItemStatus")
 public class UpdateItemStatusServlet extends HttpServlet {
@@ -49,17 +51,42 @@ public class UpdateItemStatusServlet extends HttpServlet {
 
         try (Connection conn = DBConnection.getConnection()) {
             int orderItemId = Integer.parseInt(orderItemIdStr);
-            OrderItemDAO dao = new OrderItemDAOImpl(conn);
+            OrderItemVendorDAO dao = new OrderItemVendorDAOImpl(conn);
 
-            OrderItem item = dao.getOrderItemById(orderItemId);
+            OrderItem item = dao.getOrderItemVendorById(orderItemId);
 
             if (item == null) {
                 out.print("{\"status\": \"fail\", \"message\": \"Order item not found.\"}");
-            } else if (vendId != null && !vendId.equals(item.getVendId())) {
+            } else if (vendId != null && !vendId.equals(item.getVendorId())) {
                 out.print("{\"status\": \"fail\", \"message\": \"Unauthorized: Item does not belong to logged-in vendor.\"}");
             } else {
-                boolean success = dao.updateOrderItemStatus(orderItemId, newStatus);
+                boolean success = dao.updateOrderItemVendorStatus(orderItemId, newStatus);
                 if (success) {
+                    int orderId = item.getOrderId();
+
+                    // Update cust_order.Order_status for "Preparing" or "Rejected"
+                    if ("Preparing".equalsIgnoreCase(newStatus) || "Rejected".equalsIgnoreCase(newStatus)) {
+                        String updateOrderSQL = "UPDATE cust_order SET status = ? WHERE Order_ID = ?";
+                        try (PreparedStatement stmt = conn.prepareStatement(updateOrderSQL)) {
+                            stmt.setString(1, newStatus);
+                            stmt.setInt(2, orderId);
+                            stmt.executeUpdate();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    // Update delivery.Delivery_status to "Pending" if Ready for Pickup
+                    if ("Ready for Pickup".equalsIgnoreCase(newStatus)) {
+                        String updateDeliverySQL = "UPDATE delivery SET Delivery_status = 'Pending' WHERE Order_ID = ?";
+                        try (PreparedStatement stmt = conn.prepareStatement(updateDeliverySQL)) {
+                            stmt.setInt(1, orderId);
+                            stmt.executeUpdate();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     out.print("{\"status\": \"success\", \"message\": \"Item status updated to " + newStatus + ".\"}");
                 } else {
                     out.print("{\"status\": \"fail\", \"message\": \"Failed to update item status.\"}");
