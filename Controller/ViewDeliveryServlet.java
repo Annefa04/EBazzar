@@ -1,7 +1,7 @@
 package controller;
 
-import database.DeliveryDAO;
-import database.impl.DeliveryDAOImpl;
+import database.DeliveryRiderDAO;
+import database.impl.DeliveryRiderDAOImpl;
 import database.DBConnection;
 import model.Delivery;
 
@@ -29,7 +29,7 @@ public class ViewDeliveryServlet extends HttpServlet {
 
         try {
             conn = DBConnection.getConnection();
-            DeliveryDAO dao = new DeliveryDAOImpl(conn);
+            DeliveryRiderDAO dao = new DeliveryRiderDAOImpl(conn);
             List<Delivery> deliveries = dao.getAllDeliveries();
 
             StringBuilder json = new StringBuilder();
