@@ -1,16 +1,16 @@
 package database.impl;
 
-import database.DeliveryDAO;
+import database.DeliveryRiderDAO;
 import model.Delivery;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeliveryDAOImpl implements DeliveryDAO {
+public class DeliveryRiderDAOImpl implements DeliveryRiderDAO {
     private Connection conn;
 
-    public DeliveryDAOImpl(Connection conn) {
+    public DeliveryRiderDAOImpl(Connection conn) {
         this.conn = conn;
     }
 
