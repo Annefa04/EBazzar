@@ -1,0 +1,9 @@
+package database;
+
+import model.Rider;
+import model.Vendor;
+
+public interface AuthDAO {
+    Rider validateRider(String email, String password);
+    Vendor validateVendor(String email, String password);
+}
