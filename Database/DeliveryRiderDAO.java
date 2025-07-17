@@ -3,7 +3,7 @@ package database;
 import model.Delivery;
 import java.util.List;
 
-public interface DeliveryDAO {
+public interface DeliveryRiderDAO {
 
     void acceptOrder(int deliveryId, int riderId);
     Delivery getDeliveryById(int deliveryId);
@@ -11,6 +11,4 @@ public interface DeliveryDAO {
     void updateDeliveryStatus(int deliveryId, String status);
     void assignRider(int deliveryId, int riderId); // Rider accepts an order
     List<Delivery> getAllDeliveries();   // ✅ include this to match implementation
-
-
 }
