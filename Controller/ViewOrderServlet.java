@@ -1,7 +1,7 @@
 package controller;
 
-import database.OrderItemDAO;
-import database.impl.OrderItemDAOImpl;
+import database.OrderItemVendorDAO;
+import database.impl.OrderItemVendorDAOImpl;
 import database.DBConnection;
 import model.OrderItem;
 
@@ -57,8 +57,8 @@ public class ViewOrderServlet extends HttpServlet {
         }
 
         try (Connection conn = DBConnection.getConnection()) {
-            OrderItemDAO dao = new OrderItemDAOImpl(conn);
-            List<OrderItem> orderItems = dao.getOrderItemsByVendorId(vendId);
+            OrderItemVendorDAO dao = new OrderItemVendorDAOImpl(conn);
+            List<OrderItem> orderItems = dao.getOrderItemsVendorByVendorId(vendId);
 
             StringBuilder json = new StringBuilder();
             json.append("{\"status\":\"success\",\"orderItems\":[");
@@ -69,7 +69,7 @@ public class ViewOrderServlet extends HttpServlet {
                     .append("\"orderItemId\":").append(item.getOrderItemId()).append(",")
                     .append("\"orderId\":").append(item.getOrderId()).append(",")
                     .append("\"productId\":").append(item.getProductId()).append(",")
-                    .append("\"vendId\":").append(item.getVendId()).append(",")
+                    .append("\"vendId\":").append(item.getVendorId()).append(",")
                     .append("\"quantity\":").append(item.getQuantity()).append(",")
                     .append("\"subtotal\":").append(item.getSubtotal()).append(",")
                     .append("\"itemStatus\":\"").append(item.getItemStatus()).append("\"")
