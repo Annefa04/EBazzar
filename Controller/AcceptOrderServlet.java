@@ -1,7 +1,7 @@
 package controller;
 
-import database.DeliveryDAO;
-import database.impl.DeliveryDAOImpl;
+import database.DeliveryRiderDAO;
+import database.impl.DeliveryRiderDAOImpl;
 import database.DBConnection;
 import model.Delivery;
 
@@ -11,7 +11,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.util.Enumeration;
+import java.sql.PreparedStatement;
 
 @WebServlet("/acceptOrder")
 public class AcceptOrderServlet extends HttpServlet {
@@ -26,10 +26,8 @@ public class AcceptOrderServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        // Get deliveryId from request parameter
         String deliveryIdStr = request.getParameter("deliveryId");
 
-        // Get session and riderId from session attribute
         HttpSession session = request.getSession(false);
         Integer riderId = null;
         if (session != null) {
@@ -43,7 +41,7 @@ public class AcceptOrderServlet extends HttpServlet {
             }
         }
 
-        // Fallback: get riderId from request param (for Postman testing)
+        // Optional: Allow test via Postman
         if (riderId == null) {
             String riderIdStr = request.getParameter("riderId");
             if (riderIdStr != null) {
@@ -52,10 +50,6 @@ public class AcceptOrderServlet extends HttpServlet {
                 } catch (NumberFormatException ignored) {}
             }
         }
-
-        // Debug prints (can be removed in production)
-        System.out.println("DEBUG: deliveryIdStr = " + deliveryIdStr);
-        System.out.println("DEBUG: riderId = " + riderId);
 
         if (deliveryIdStr == null || deliveryIdStr.trim().isEmpty() || riderId == null) {
             out.print("{\"status\": \"fail\", \"message\": \"Missing deliveryId or rider session.\"}");
@@ -70,15 +64,23 @@ public class AcceptOrderServlet extends HttpServlet {
             int deliveryId = Integer.parseInt(deliveryIdStr);
 
             conn = DBConnection.getConnection();
-            DeliveryDAO dao = new DeliveryDAOImpl(conn);
+            DeliveryRiderDAO dao = new DeliveryRiderDAOImpl(conn);
 
             // Assign rider and update delivery status
             dao.assignRider(deliveryId, riderId);
             dao.updateDeliveryStatus(deliveryId, "Transit");
 
+            // Get delivery to fetch Order_ID
             Delivery delivery = dao.getDeliveryById(deliveryId);
 
             if (delivery != null) {
+                // ✅ Update cust_order.Order_status = "Delivering"
+                String updateOrderSQL = "UPDATE cust_order SET status = 'Delivering' WHERE Order_ID = ?";
+                try (PreparedStatement stmt = conn.prepareStatement(updateOrderSQL)) {
+                    stmt.setInt(1, delivery.getOrderId());
+                    stmt.executeUpdate();
+                }
+
                 String address = delivery.getAddress().replace("\"", "\\\"");
                 out.print("{\"status\": \"success\", \"address\": \"" + address + "\", \"orderId\": " + delivery.getOrderId() + "}");
             } else {
