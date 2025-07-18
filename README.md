@@ -58,7 +58,7 @@ All these interactions are handled using JavaScript’s fetch() function. The fr
 
 # Database Design
 ## Entity-Relationship Diagram (ERD)
-![eBazaar ERD](ERDeBazaar.jpg)
+![eBazaar ERD](eBazaar.jpg)
 
 ## Schema Justification
 The system’s database is designed based on normalized relational principles to avoid data redundancy and ensure data consistency. The database consists of several main tables, including:
