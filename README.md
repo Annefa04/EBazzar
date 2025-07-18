@@ -42,10 +42,13 @@ The frontend communicates with the backend by calling dedicated REST API endpoin
 All these interactions are handled using JavaScript's fetch() function and the responses are processed dynamically to update the user interface.
 
 # Database Design
-### Entity-Relationship Diagram (ERD)
-![eBazaar ERD](eBazaar.jpg)
+## Entity-Relationship Diagram (ERD)
 
-# Data Validation
+
+## Use case
+![eBazaar Use Case](UseCase.jpg)
+
+## Data Validation
 
 ### FrontEnd
 In the eBazaar System, frontend validation is implemented using JavaScript to enhance user experience and prevent invalid data from reaching the backend. For example, on the customer, vendor and rider login page, the system ensures that both the email and password fields are filled before allowing submission and displays error messages if either field is empty. During checkout, users are required to provide a delivery address and select a payment method before confirming their order with alerts triggered if these inputs are missing. Additionally, the system checks localStorage to ensure that user session data such as custId and custName exist to  prevent unauthorized access to restricted pages like the cart or order history same goes to vendor that also use localstorage but rider use Url Query String. These client-side validations provide immediate feedback, reduce server load and help maintain data quality.
