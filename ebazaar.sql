@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2025 at 05:49 PM
+-- Generation Time: Jul 18, 2025 at 04:12 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,7 +41,6 @@ CREATE TABLE `cart` (
 INSERT INTO `cart` (`Cart_ID`, `Cust_ID`, `Prod_ID`, `Quantity`) VALUES
 (4, 3, 35, 1),
 (5, 3, 45, 2),
-(7, 5, 65, 1),
 (8, 6, 75, 2),
 (9, 7, 85, 1),
 (10, 8, 95, 3),
@@ -51,7 +50,6 @@ INSERT INTO `cart` (`Cart_ID`, `Cust_ID`, `Prod_ID`, `Quantity`) VALUES
 (16, 8, 60, 1),
 (17, 10, 70, 2),
 (19, 3, 90, 3),
-(20, 5, 100, 1),
 (87, 4, 1, 1),
 (88, 4, 2, 1);
 
@@ -108,7 +106,7 @@ INSERT INTO `cust_order` (`Order_ID`, `Cust_ID`, `Order_date`, `Status`, `Total_
 (1, 1, '2023-11-01', 'Preparing', 31.54),
 (2, 2, '2023-11-02', 'Preparing', 32.00),
 (3, 3, '2023-11-03', 'Delivering', 18.75),
-(4, 4, '2023-11-04', 'Completed', 42.50),
+(4, 4, '2023-11-04', 'Preparing', 42.50),
 (5, 5, '2023-11-05', 'Pending', 15.25),
 (6, 6, '2023-11-06', 'Rejected', 28.00),
 (7, 7, '2023-11-07', 'Preparing', 36.50),
@@ -122,11 +120,11 @@ INSERT INTO `cust_order` (`Order_ID`, `Cust_ID`, `Order_date`, `Status`, `Total_
 (15, 1, '2025-07-17', 'Pending', 6.15),
 (16, 2, '2025-07-17', 'Pending', 41.22),
 (17, 1, '2025-07-17', 'Rejected', 15.42),
-(18, 1, '2025-07-17', 'Rejected', 3.95),
+(18, 1, '2025-07-17', 'Preparing', 3.95),
 (19, 1, '2025-07-17', 'Completed', 39.72),
-(20, 1, '2025-07-17', 'Pending', 39.72),
-(21, 2, '2025-07-17', 'Pending', 14.75),
-(22, 2, '2025-07-17', 'Preparing', 30.22),
+(20, 1, '2025-07-17', 'Completed', 39.72),
+(21, 2, '2025-07-17', 'Completed', 14.75),
+(22, 2, '2025-07-17', 'Delivering', 30.22),
 (23, 4, '2025-07-17', 'Pending', 18.75),
 (24, 4, '2025-07-17', 'Pending', 14.60),
 (25, 4, '2025-07-17', 'Pending', 32.25),
@@ -135,7 +133,9 @@ INSERT INTO `cust_order` (`Order_ID`, `Cust_ID`, `Order_date`, `Status`, `Total_
 (28, 1, '2025-07-17', 'Pending', 17.28),
 (29, 1, '2025-07-17', 'Pending', 21.75),
 (30, 4, '2025-07-17', 'Completed', 92.05),
-(31, 1, '2025-07-17', 'Pending', 49.25);
+(31, 1, '2025-07-17', 'Pending', 49.25),
+(32, 1, '2025-07-18', 'Pending', 8.60),
+(33, 5, '2025-07-18', 'Completed', 41.05);
 
 -- --------------------------------------------------------
 
@@ -161,9 +161,9 @@ CREATE TABLE `delivery` (
 
 INSERT INTO `delivery` (`Delivery_ID`, `Order_ID`, `Rider_ID`, `Delivery_status`, `Distance_km`, `Delivery_type`, `Delivery_fee`, `Address`, `Payment_method`) VALUES
 (1, 19, 1, 'Delivered', 2.06, 'Standard', 0.72, 'Mydin MITC Melaka', 'Cash'),
-(2, 20, NULL, 'Pending', 2.06, 'Standard', 0.72, 'Mydin MITC Melaka', 'Cash'),
-(3, 21, NULL, 'Pending', 3.57, 'Standard', 1.25, 'Zoo Melaka', 'Cash'),
-(4, 22, NULL, 'Pending', 2.06, 'Standard', 0.72, 'Mydin MITC Melaka', 'Cash'),
+(2, 20, 1, 'Delivered', 2.06, 'Standard', 0.72, 'Mydin MITC Melaka', 'Cash'),
+(3, 21, 1, 'Delivered', 3.57, 'Standard', 1.25, 'Zoo Melaka', 'Cash'),
+(4, 22, 1, 'Transit', 2.06, 'Standard', 0.72, 'Mydin MITC Melaka', 'Cash'),
 (5, 23, NULL, 'Pending', 3.57, 'Standard', 1.25, 'Zoo Melaka', 'Card'),
 (6, 24, NULL, 'Pending', 3.57, 'Express', 1.60, 'Zoo Melaka', 'Cash'),
 (7, 25, NULL, 'Pending', 3.57, 'Standard', 1.25, 'Zoo Melaka', 'Cash'),
@@ -173,7 +173,9 @@ INSERT INTO `delivery` (`Delivery_ID`, `Order_ID`, `Rider_ID`, `Delivery_status`
 (11, 29, NULL, 'Pending', 3.57, 'Standard', 1.25, 'Zoo Melaka', 'Card'),
 (12, NULL, NULL, 'Pending', 16.52, 'Standard', 5.78, 'No. 12, Jalan Bukit Beruang Lightning, Bukit Beruang, 75450 Melaka', 'Cash'),
 (13, 30, 1, 'Delivered', 15.67, 'Express', 7.05, 'No. 29, Jalan MITC 2, Taman MITC, 75450 Melaka', 'Cash'),
-(14, 31, NULL, 'Pending', 3.57, 'Standard', 1.25, 'Zoo Melaka', 'Cash');
+(14, 31, NULL, 'Pending', 3.57, 'Standard', 1.25, 'Zoo Melaka', 'Cash'),
+(15, 32, NULL, 'Pending', 3.57, 'Express', 1.60, 'Zoo Melaka', 'Cash'),
+(16, 33, 1, 'Delivered', 15.67, 'Express', 7.05, 'No.12, Jalan Bukit Beruang Lightning, Bukit Beruang, 75450 Melaka', 'Card');
 
 -- --------------------------------------------------------
 
@@ -199,14 +201,14 @@ INSERT INTO `order_item` (`Order_item_ID`, `Order_ID`, `Product_ID`, `Vend_ID`, 
 (1, 1, 1, 1, 2, 17.00, 'Pending'),
 (2, 1, 11, 3, 1, 3.50, 'Pending'),
 (3, 1, 16, 4, 3, 3.60, 'Ready For Pickup'),
-(4, 2, 6, 2, 1, 12.00, 'Pending'),
+(4, 2, 6, 2, 1, 12.00, 'Preparing'),
 (5, 2, 9, 2, 2, 5.00, 'Pending'),
 (6, 2, 26, 6, 1, 3.00, 'Pending'),
 (7, 3, 21, 5, 1, 5.00, 'Pending'),
 (8, 3, 31, 7, 2, 8.00, 'Pending'),
 (9, 3, 46, 10, 1, 3.50, 'Pending'),
 (10, 4, 56, 12, 2, 6.00, 'Pending'),
-(11, 4, 61, 13, 1, 3.50, 'Pending'),
+(11, 4, 61, 13, 1, 3.50, 'Preparing'),
 (12, 5, 66, 14, 1, 5.00, 'Pending'),
 (13, 5, 71, 15, 1, 3.00, 'Pending'),
 (14, 6, 76, 16, 1, 7.00, 'Pending'),
@@ -224,7 +226,7 @@ INSERT INTO `order_item` (`Order_item_ID`, `Order_ID`, `Product_ID`, `Vend_ID`, 
 (26, 17, 82, 17, 2, 3.00, 'Pending'),
 (27, 17, 81, 17, 3, 4.50, 'Pending'),
 (28, 18, 16, 4, 1, 1.20, 'Ready For Pickup'),
-(29, 18, 17, 4, 1, 1.50, 'Pending'),
+(29, 18, 17, 4, 1, 1.50, 'Ready For Pickup'),
 (30, 19, 6, 2, 1, 12.00, 'Ready For Pickup'),
 (31, 19, 7, 2, 1, 15.00, 'Pending'),
 (32, 19, 8, 2, 1, 12.00, 'Pending'),
@@ -265,7 +267,14 @@ INSERT INTO `order_item` (`Order_item_ID`, `Order_ID`, `Product_ID`, `Vend_ID`, 
 (67, 30, 6, 2, 1, 12.00, 'Pending'),
 (68, 30, 11, 3, 1, 3.50, 'Pending'),
 (69, 31, 2, 1, 2, 30.00, 'Pending'),
-(70, 31, 3, 1, 3, 18.00, 'Pending');
+(70, 31, 3, 1, 3, 18.00, 'Pending'),
+(71, 32, 11, 3, 1, 3.50, 'Pending'),
+(72, 32, 12, 3, 1, 3.50, 'Pending'),
+(73, 33, 8, 2, 1, 12.00, 'Ready For Pickup'),
+(74, 33, 9, 2, 3, 7.50, 'Ready For Pickup'),
+(75, 33, 62, 13, 1, 6.00, 'Ready For Pickup'),
+(76, 33, 63, 13, 1, 4.50, 'Ready For Pickup'),
+(77, 33, 64, 13, 1, 4.00, 'Ready For Pickup');
 
 -- --------------------------------------------------------
 
@@ -529,7 +538,7 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `Cart_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `Cart_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -541,19 +550,19 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `cust_order`
 --
 ALTER TABLE `cust_order`
-  MODIFY `Order_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `Order_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `Delivery_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Delivery_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `Order_item_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `Order_item_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `products`
