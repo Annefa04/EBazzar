@@ -2,7 +2,7 @@
 ### Introduction
 The eBazaar System is designed as a web-based online marketplace requiring backward integration of modernization and digitalization of the business of conventional community-based bazaars. It is being created manually with the focus on ease of use by customer in various user roles. The system allows integrating user registration and login, user interface displaying vendor management and vendor products, posting items to a cart, selecting delivery method and method of payment, order confirmation and review of an order history. Besides, the vendors will get their own interface in which they will be able to see the incoming orders by the customers as well as they will be able to update the status of each order as per the preparation steps. The system also allow the riders to see the list of available orders and change the status of the delivery including recording it as in transit, pending or delivered. The multi-role design makes the digital experience comprehensive and well arranged to all sides involved. Generally, eBazaar System facilitates flexibility, openness and accessibility, encouraging the digital interactions of customers, vendors and riders which will make the traditional bazaars enter a new era.
 
-## Commercial Value/Third-Party Integration
+### Commercial Value/Third-Party Integration
 In the eBazaar system, we integrated the OpenRouteService (ORS) API to enhance the real-world usability of the delivery module. This integration plays a crucial role in enabling dynamic delivery fee calculation based on a customer's actual location.
 
 - Third-Party API Used: OpenRouteService (ORS)
