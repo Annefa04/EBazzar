@@ -43,12 +43,9 @@ All these interactions are handled using JavaScript's fetch() function and the r
 One of the core functions is the real-time preorder queue. Orders arrive with the status Pending and are displayed in a Bootstrap‑styled table. Vendors can update the status of each order using action buttons such as "Preparing", "Ready for Pickup", or "Rejected". These buttons trigger a fetch() POST request to /updateItemStatus, which ensures that riders and customers receive live updates on order progress.
 
 The frontend communicates with the backend by calling dedicated REST API endpoints. For example:
-
-   > To authenticate the vendor, it sends a POST request to /api/loginvendor with the vendor’s email and password. On success, it stores vendName and vendId in localStorage.
-
-   > To fetch the list of preorders assigned to the logged-in vendor, it sends a GET request to /vendor/viewOrderVendor?vendId=.... The response contains a JSON object with an array of order items filtered by that vendor ID.
-
-   > To update the status of a specific order item (e.g., "Preparing", "Ready for Pickup", or "Rejected"), the vendor UI sends a POST request to /updateItemStatus with the body parameters orderItemId and status.
+   - To authenticate the vendor, it sends a POST request to /api/loginvendor with the vendor’s email and password. On success, it stores vendName and vendId in localStorage.
+   - To fetch the list of preorders assigned to the logged-in vendor, it sends a GET request to /vendor/viewOrderVendor?vendId=.... The response contains a JSON object with an array of order items filtered by that vendor ID.
+   - To update the status of a specific order item (e.g., "Preparing", "Ready for Pickup", or "Rejected"), the vendor UI sends a POST request to /updateItemStatus with the body parameters orderItemId and status.
 
 All these interactions are handled using JavaScript’s fetch() function. The frontend processes the responses dynamically, refreshing the table and displaying alerts without reloading the page. Vendor login persistence is maintained using localStorage, and each operation is secured by backend session validation (vendId), ensuring that vendors can only manage their own orders.
 
