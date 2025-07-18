@@ -190,6 +190,17 @@ Content-Type: application/json;charset=UTF-8
     
 - API: /api/customer/orders
   - HTTP Method: GET
+
+**Parameters:**
+```
+custId: 3
+```
+
+**Headers:**
+```
+Content-Type: application/json;charset=UTF-8
+```
+
 - API: /api/order
   - HTTP Method: POST
 - API: /api/products
