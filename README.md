@@ -45,6 +45,27 @@ All these interactions are handled using JavaScript's fetch() function and the r
 ## Entity-Relationship Diagram (ERD)
 ![eBazaar ERD](ERDeBazaar.jpg)
 
+The system’s database is designed based on normalized relational principles to avoid data redundancy and ensure data consistency. The database consists of several main tables, including:
+
+- Customer – stores customer details (ID, name, email, password)
+
+- Vendor – stores vendor details (ID, name, email)
+
+- Product – stores products offered by vendors
+
+- Cart – temporary storage for products added to the cart
+
+- Order – main record of an order placed by a customer
+
+- OrderItem (bridge table) – details of individual items within an order
+
+- Delivery – records delivery status for each order
+
+Each table includes primary and foreign keys to establish one-to-many relationships, such as:
+
+The OrderItem table acts as a bridge table between the Order and Product entities. This enables us to track multiple products within a single order and capture vendor information, quantities, and item statuses individually.
+
+
 ## Use case
 ![eBazaar Use Case](UseCase.jpg)
 
