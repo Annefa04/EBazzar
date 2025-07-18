@@ -3,8 +3,30 @@
 The eBazaar System is designed as a web-based online marketplace requiring backward integration of modernization and digitalization of the business of conventional community-based bazaars. It is being created manually with the focus on ease of use by customer in various user roles. The system allows integrating user registration and login, user interface displaying vendor management and vendor products, posting items to a cart, selecting delivery method and method of payment, order confirmation and review of an order history. Besides, the vendors will get their own interface in which they will be able to see the incoming orders by the customers as well as they will be able to update the status of each order as per the preparation steps. The system also allow the riders to see the list of available orders and change the status of the delivery including recording it as in transit, pending or delivered. The multi-role design makes the digital experience comprehensive and well arranged to all sides involved. Generally, eBazaar System facilitates flexibility, openness and accessibility, encouraging the digital interactions of customers, vendors and riders which will make the traditional bazaars enter a new era.
 
 ### Commercial Value/Third-Party Integration
+In the eBazaar system, we integrated the OpenRouteService (ORS) API to enhance the real-world usability of the delivery module. This integration plays a crucial role in enabling dynamic delivery fee calculation based on a customer's actual location.
 
-# System Architecture
+# Third-Party API Used: OpenRouteService (ORS)
+ORS provides geocoding and routing capabilities, which are leveraged in our backend through a utility class ORSHelper.java. This external API offers free and reliable geographic services, making it suitable for startups and academic projects.
+
+1. Geocoding Address to Coordinates:
+When a user inputs a delivery address, the ORS Geocoding API translates it into geographic coordinates (latitude and longitude). This ensures accuracy in identifying delivery destinations, especially within Malaysia (boundary.country=MY).
+
+2. Driving Distance Calculation:
+The ORS Directions API is used to compute driving distance (in km) from a fixed pickup point (Mydin MITC Melaka) to the customer's address. This distance is essential for logistics cost estimation.
+
+3. Dynamic Delivery Fee Calculation:
+Based on the distance and selected delivery type (Standard or Express), the system calculates the delivery fee in real-time using configurable rates (e.g., RM0.35/km for Standard, RM0.45/km for Express). This fee is added to the order total before checkout.
+
+# Commercial Potential:
+This integration adds real-world commercial value by simulating a location-aware delivery system, similar to those used in food or parcel delivery apps like Grab or Shopee. By automating delivery cost estimation:
+
+- Vendors can avoid undercharging or overcharging.
+- Customers get transparent pricing based on their location.
+- Riders benefit from consistent, distance-based delivery planning.
+
+Overall, the use of ORS elevates the eBazaar project from a basic online store to a more practical and scalable logistics-aware eCommerce system, making it a strong candidate for future commercial deployment.
+
+### System Architecture
 
 # Backend Application
 ### Technology Stack
