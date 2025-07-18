@@ -3,11 +3,23 @@ The eBazaar System is a web-based online marketplace designed to digitize tradit
 
 # Backend Application
 ### Technology Stack
-### Language: Java
-### Framework: Java Servlets (using MVC pattern)
-### Database: MySQL (via JDBC + DAO pattern)
-### IDE: Eclipse IDE for Enterprise Java
-### Server: Apache Tomcat
+Language: Java
+Framework: Java Servlets (using MVC pattern)
+Database: MySQL (via JDBC + DAO pattern)
+IDE: Eclipse IDE for Enterprise Java
+Server: Apache Tomcat
+
+### API Documentation
+API Endpoint
+- http://localhost:8080/eBazaar/loginrider
+- http://localhost:8080/eBazaar/loginvendor
+- http://localhost:8080/eBazaar/viewdelivery
+- http://localhost:8080/eBazaar/ViewOrderVendor
+- http://localhost:8080/eBazaar/updateDeliveryStatus
+- http://localhost:8080/eBazaar/acceptOrder
+
+
+
 
 # Frontend Application
 ### 1) Customer Frontend
