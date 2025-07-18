@@ -1,5 +1,6 @@
 # eBaazar System
-### Introduction
+## Introduction
+### Project Overview
 The eBazaar System is designed as a web-based online marketplace requiring backward integration of modernization and digitalization of the business of conventional community-based bazaars. It is being created manually with the focus on ease of use by customer in various user roles. The system allows integrating user registration and login, user interface displaying vendor management and vendor products, posting items to a cart, selecting delivery method and method of payment, order confirmation and review of an order history. Besides, the vendors will get their own interface in which they will be able to see the incoming orders by the customers as well as they will be able to update the status of each order as per the preparation steps. The system also allow the riders to see the list of available orders and change the status of the delivery including recording it as in transit, pending or delivered. The multi-role design makes the digital experience comprehensive and well arranged to all sides involved. Generally, eBazaar System facilitates flexibility, openness and accessibility, encouraging the digital interactions of customers, vendors and riders which will make the traditional bazaars enter a new era.
 
 ### Commercial Value/Third-Party Integration
@@ -24,20 +25,20 @@ This integration adds real-world commercial value by simulating a location-aware
 
 Overall, the use of ORS elevates the eBazaar project from a basic online store to a more practical and scalable logistics-aware eCommerce system, making it a strong candidate for future commercial deployment.
 
-# System Architecture
+## System Architecture
 ### High Level Diagram 
 ![eBazaar High Level Diagram](HL-Diagram.jpg)
 
 ## Backend Application
-# Technology Stack
+### Technology Stack
 - Language: Java
 - Framework: Java Servlets (using MVC pattern)
 - Database: MySQL (via JDBC + DAO pattern)
 - IDE: Eclipse IDE for Enterprise Java
 - Server: Apache Tomcat
 
-# API Documentation
-## API Endpoint
+## API Documentation
+### API Endpoint
 - API: /api/login
   - HTTP Method: GET
 
@@ -309,7 +310,7 @@ Content-Type: application/json;charset=UTF-8
 
 ### Security 
 
-The eBazaar system implements robust security measures to safeguard backend endpoints and ensure user data integrity across Customer, Vendor, and Rider. It uses session-based authentication via Java HttpSession, which is well-suited for its JSP/Servlet monolithic structure where the frontend and backend operate under the same domain. Upon successful login, session attributes like customerId, customerName, and customerEmail are stored server-side to manage access and validate roles. Access to protected pages such as riderdashboard.jsp is granted only if relevant session attributes exist, while logout operations call session.invalidate() to terminate sessions securely. The system also adheres to best practices including input validation through PreparedStatement to prevent SQL injection, session timeout to auto-expire inactive sessions, and role-based access control to enforce user-level permissions. Although HTTPS is not active during development, it is recommended for deployment to protect credentials.
+The eBazaar system implements robust security measures to safeguard backend endpoints and ensure user data integrity across Customer, Vendor, and Rider. It uses session-based authentication via Java HttpSession which is well-suited for its JSP/Servlet monolithic structure where the frontend and backend operate under the same domain. Upon successful login, session attributes like customerId, customerName and customerEmail are stored server-side to manage access and validate roles. Access to protected pages such as riderdashboard.jsp is granted only if relevant session attributes exist, while logout operations call session.invalidate() to terminate sessions securely. The system also adheres to best practices including input validation through PreparedStatement to prevent SQL injection, session timeout to auto-expire inactive sessions, and role-based access control to enforce user-level permissions. Although HTTPS is not active during development, it is recommended for deployment to protect credentials.
 
 # Frontend Application
 ### 1) Customer Frontend
@@ -390,7 +391,7 @@ The OrderItem table acts as a bridge table between the Order and Product entitie
 
 # Business Logic and Data Validation
 
-## Use case
+## Use Case Diagram
 ![eBazaar Use Case](UseCase.jpg)
 
 ## Data Validation
@@ -399,5 +400,5 @@ The OrderItem table acts as a bridge table between the Order and Product entitie
 In the eBazaar System, frontend validation is implemented using JavaScript to enhance user experience and prevent invalid data from reaching the backend. For example, on the customer, vendor and rider login page, the system ensures that both the email and password fields are filled before allowing submission and displays error messages if either field is empty. During checkout, users are required to provide a delivery address and select a payment method before confirming their order with alerts triggered if these inputs are missing. Additionally, the system checks localStorage to ensure that user session data such as custId and custName exist to  prevent unauthorized access to restricted pages like the cart or order history same goes to vendor that also use localstorage but rider use Url Query String. These client-side validations provide immediate feedback, reduce server load and help maintain data quality.
 
 ### Backend
-On the backend, several validation mechanisms are implemented to ensure data integrity, user security, and proper system behavior. First, unique email checks are enforced during registration for all user types in our system such as customers, vendors, and riders by querying the database to verify that the email does not already exist. This prevents duplicate accounts and maintains user uniqueness. To safeguard against SQL injection attacks, all SQL queries use prepared statements rather than direct string combination, ensuring that input parameters are securely handled and not executed as part of the SQL query itself. Additionally, proper session management is implemented to protect user access and restrict unauthorized entry to secure pages. When a user successfully logs in, relevant session attributes (such as riderID and riderName) are stored in the session object. Each protected page includes checks to verify the presence of a valid session and user identity before granting access.
+On the backend, several validation mechanisms are implemented to ensure data integrity, user security and proper system behavior. First, unique email checks are enforced during registration for all user types in our system such as customers, vendors and riders by querying the database to verify that the email does not already exist. This prevents duplicate accounts and maintains user uniqueness. To safeguard against SQL injection attacks, all SQL queries use prepared statements rather than direct string combination, ensuring that input parameters are securely handled and not executed as part of the SQL query itself. Additionally, proper session management is implemented to protect user access and restrict unauthorized entry to secure pages. When a user successfully logs in, relevant session attributes (such as riderID and riderName) are stored in the session object. Each protected page includes checks to verify the presence of a valid session and user identity before granting access.
 
