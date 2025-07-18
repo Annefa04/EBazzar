@@ -8,11 +8,11 @@ The eBazaar System is designed as a web-based online marketplace requiring backw
 
 # Backend Application
 ### Technology Stack
-Language: Java
-Framework: Java Servlets (using MVC pattern)
-Database: MySQL (via JDBC + DAO pattern)
-IDE: Eclipse IDE for Enterprise Java
-Server: Apache Tomcat
+- Language: Java
+- Framework: Java Servlets (using MVC pattern)
+- Database: MySQL (via JDBC + DAO pattern)
+- IDE: Eclipse IDE for Enterprise Java
+- Server: Apache Tomcat
 
 ### API Documentation
 API Endpoint
