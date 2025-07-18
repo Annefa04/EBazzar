@@ -24,8 +24,9 @@ This integration adds real-world commercial value by simulating a location-aware
 
 Overall, the use of ORS elevates the eBazaar project from a basic online store to a more practical and scalable logistics-aware eCommerce system, making it a strong candidate for future commercial deployment.
 
-### System Architecture
-
+# System Architecture
+###High Level Diagram 
+![eBazaar High Level Diagram](High Level Diagram eBazaar.jpg)
 ## Backend Application
 # Technology Stack
 - Language: Java
