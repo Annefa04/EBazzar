@@ -16,12 +16,36 @@ Server: Apache Tomcat
 
 ### API Documentation
 API Endpoint
-- http://localhost:8080/eBazaar/loginrider
-- http://localhost:8080/eBazaar/loginvendor
-- http://localhost:8080/eBazaar/viewdelivery
-- http://localhost:8080/eBazaar/ViewOrderVendor
-- http://localhost:8080/eBazaar/updateDeliveryStatus
-- http://localhost:8080/eBazaar/acceptOrder
+- API: /api/login
+  - HTTP Method: GET
+  - Request: 
+    
+- API: /api/loginrider
+  HTTP Method: GET
+- API: /api/loginvendor
+  HTTP Method: GET
+- API: /acceptOrder
+  HTTP Method: POST
+- API: /api/cart
+  HTTP Method: POST, GET, DELETE, PUT
+- API: /api/delivery
+  HTTP Method: POST
+- API: /api/customer/orders
+  HTTP Method: GET
+- API: /api/order
+  HTTP Method: POST
+- API: /api/products
+  HTTP Method: GET
+- API: /updateDeliveryStatus
+  HTTP Method: POST
+- API: /updateItemStatus
+  HTTP Method: POST
+- API: /api/vendors
+  HTTP Method: GET
+- API: /api/viewdelivery
+  HTTP Method: GET
+- API: /vendor/viewOrderVendor
+  HTTP Method: GET
 
 
 
