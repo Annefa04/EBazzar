@@ -246,7 +246,8 @@ The rider-facing frontend is a web application designed specifically for deliver
 
   - New Orders to Accept (orders with status "Pending" and riderId = null)
   - My Deliveries (orders already assigned to the logged-in rider)
-  - Each delivery entry is presented in a responsive Bootstrap-styled table, showing order details such as order ID, customer name, status, and delivery address. Riders can interact with action buttons like "Accept Order" and "Update Delivery Status" (e.g., to mark an order as  Transit, or Delivered). These buttons send asynchronous fetch() POST requests to the backend API.
+
+Each delivery entry is presented in a responsive Bootstrap-styled table, showing order details such as order ID, customer name, status, and delivery address. Riders can interact with action buttons like "Accept Order" and "Update Delivery Status" (e.g., to mark an order as  Transit, or Delivered). These buttons send asynchronous fetch() POST requests to the backend API.
 
 The frontend communicates with the backend by calling dedicated REST API endpoints. For example:
    - Login: A POST request is sent to /api/loginrider with the rider’s email and password. On success, riderName and riderId are stored in sessionStorage, ensuring secure and personalized access to delivery data.
@@ -254,9 +255,7 @@ The frontend communicates with the backend by calling dedicated REST API endpoin
    - Accept Order: When the rider clicks “Accept Order”, a POST request is sent to /acceptOrder with parameters deliveryId and riderId. The backend then assigns the rider to that delivery.
    - Update Delivery Status: To mark the delivery status (e.g., "Transit", "Delivered"), a POST request is sent to /updateDeliveryStatus with deliveryId and the new deliveryStatus.
 
-These operations are handled using JavaScript’s fetch() function. The user interface updates dynamically without page reloads—ensuring a fast, responsive experience. Riders are only shown and allowed to interact with deliveries assigned to them, thanks to backend-side validation using the riderId.
-
-Persistent state is maintained via sessionStorage, and all sensitive actions are verified on the backend to prevent unauthorized delivery modifications.
+These operations are handled using JavaScript’s fetch() function. The user interface updates dynamically without page reloads—ensuring a fast, responsive experience. Riders are only shown and allowed to interact with deliveries assigned to them, thanks to backend-side validation using the riderId. Persistent state is maintained via sessionStorage, and all sensitive actions are verified on the backend to prevent unauthorized delivery modifications.
 
 # Database Design
 ## Entity-Relationship Diagram (ERD)
@@ -298,6 +297,6 @@ The OrderItem table acts as a bridge table between the Order and Product entitie
 
 ## Data Validation
 
-### FrontEnd
+### Frontend
 In the eBazaar System, frontend validation is implemented using JavaScript to enhance user experience and prevent invalid data from reaching the backend. For example, on the customer, vendor and rider login page, the system ensures that both the email and password fields are filled before allowing submission and displays error messages if either field is empty. During checkout, users are required to provide a delivery address and select a payment method before confirming their order with alerts triggered if these inputs are missing. Additionally, the system checks localStorage to ensure that user session data such as custId and custName exist to  prevent unauthorized access to restricted pages like the cart or order history same goes to vendor that also use localstorage but rider use Url Query String. These client-side validations provide immediate feedback, reduce server load and help maintain data quality.
 
