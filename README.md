@@ -58,7 +58,7 @@ Content-Type: application/json;charset=UTF-8
 ```
     
 - API: /api/loginrider
-  HTTP Method: GET
+  - HTTP Method: GET
 **Parameters:**
 - `email`: ali.rider@gmail.com  
 - `password`: ali123
@@ -76,7 +76,7 @@ Content-Type: application/json;charset=UTF-8
 }
 ```
 - API: /api/loginvendor
-  HTTP Method: GET
+  - HTTP Method: GET
 **Parameters:**
 - `email`: aromawangi.perfume@gmail.com  
 - `password`: wangipassword123
@@ -94,27 +94,27 @@ Content-Type: application/json;charset=UTF-8
 }
 ```
 - API: /acceptOrder
-  HTTP Method: POST
+  - HTTP Method: POST
 - API: /api/cart
-  HTTP Method: POST, GET, DELETE, PUT
+  - HTTP Method: POST, GET, DELETE, PUT
 - API: /api/delivery
-  HTTP Method: POST
+  - HTTP Method: POST
 - API: /api/customer/orders
-  HTTP Method: GET
+  - HTTP Method: GET
 - API: /api/order
-  HTTP Method: POST
+  - HTTP Method: POST
 - API: /api/products
-  HTTP Method: GET
+  - HTTP Method: GET
 - API: /updateDeliveryStatus
-  HTTP Method: POST
+  - HTTP Method: POST
 - API: /updateItemStatus
-  HTTP Method: POST
+  - HTTP Method: POST
 - API: /api/vendors
-  HTTP Method: GET
+  - HTTP Method: GET
 - API: /api/viewdelivery
-  HTTP Method: GET
+  - HTTP Method: GET
 - API: /vendor/viewOrderVendor
-  HTTP Method: GET
+  - HTTP Method: GET
 
 ## Example Success and Error Responses
 
