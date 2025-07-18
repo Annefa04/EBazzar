@@ -9,17 +9,6 @@ The eBazaar System is a web-based online marketplace designed to digitize tradit
 ### IDE: Eclipse IDE for Enterprise Java
 ### Server: Apache Tomcat
 
-# eBaazar System
-The eBazaar System is a web-based online marketplace designed to digitize traditional bazaar operations.
-
-#Backend Application
-Technology Stack
-Language: Java
-Framework: Java Servlets (using MVC pattern)
-Database: MySQL (via JDBC + DAO pattern)
-IDE: Eclipse IDE for Enterprise Java
-Server: Apache Tomcat
-
 # Frontend Application
 ### 1) Customer Frontend
    The customer-facing frontend is a web application designed to provide a smooth shopping experience for customers who visit the eBazaar platform. Its main functions include allowing customers to register or log in, browse vendors and products, add items to their cart, confirm orders and review their order history. This application is intended for general users who wish to make purchases from local vendors through the eBazaar platform.
