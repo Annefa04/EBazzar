@@ -5,19 +5,17 @@ The eBazaar System is designed as a web-based online marketplace requiring backw
 ## Commercial Value/Third-Party Integration
 In the eBazaar system, we integrated the OpenRouteService (ORS) API to enhance the real-world usability of the delivery module. This integration plays a crucial role in enabling dynamic delivery fee calculation based on a customer's actual location.
 
-# Third-Party API Used: OpenRouteService (ORS)
+- Third-Party API Used: OpenRouteService (ORS)
 ORS provides geocoding and routing capabilities, which are leveraged in our backend through a utility class ORSHelper.java. This external API offers free and reliable geographic services, making it suitable for startups and academic projects.
 
 1. Geocoding Address to Coordinates:
 When a user inputs a delivery address, the ORS Geocoding API translates it into geographic coordinates (latitude and longitude). This ensures accuracy in identifying delivery destinations, especially within Malaysia (boundary.country=MY).
-
 2. Driving Distance Calculation:
 The ORS Directions API is used to compute driving distance (in km) from a fixed pickup point (Mydin MITC Melaka) to the customer's address. This distance is essential for logistics cost estimation.
-
 3. Dynamic Delivery Fee Calculation:
 Based on the distance and selected delivery type (Standard or Express), the system calculates the delivery fee in real-time using configurable rates (e.g., RM0.35/km for Standard, RM0.45/km for Express). This fee is added to the order total before checkout.
 
-# Commercial Potential:
+Commercial Potential:
 This integration adds real-world commercial value by simulating a location-aware delivery system, similar to those used in food or parcel delivery apps like Grab or Shopee. By automating delivery cost estimation:
 
 - Vendors can avoid undercharging or overcharging.
