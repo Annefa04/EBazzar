@@ -306,6 +306,11 @@ Content-Type: application/json;charset=UTF-8
 }
 ```
 
+
+### Security 
+
+The eBazaar system implements robust security measures to safeguard backend endpoints and ensure user data integrity across Customer, Vendor, and Rider. It uses session-based authentication via Java HttpSession, which is well-suited for its JSP/Servlet monolithic structure where the frontend and backend operate under the same domain. Upon successful login, session attributes like customerId, customerName, and customerEmail are stored server-side to manage access and validate roles. Access to protected pages such as riderdashboard.jsp is granted only if relevant session attributes exist, while logout operations call session.invalidate() to terminate sessions securely. The system also adheres to best practices including input validation through PreparedStatement to prevent SQL injection, session timeout to auto-expire inactive sessions, and role-based access control to enforce user-level permissions. Although HTTPS is not active during development, it is recommended for deployment to protect credentials.
+
 # Frontend Application
 ### 1) Customer Frontend
    The customer-facing frontend is a web application designed to provide a smooth shopping experience for customers who visit the eBazaar platform. Its main functions include allowing customers to register or log in, browse vendors and products, add items to their cart, confirm orders and review their order history. This application is intended for general users who wish to make purchases from local vendors through the eBazaar platform.
@@ -392,4 +397,7 @@ The OrderItem table acts as a bridge table between the Order and Product entitie
 
 ### Frontend
 In the eBazaar System, frontend validation is implemented using JavaScript to enhance user experience and prevent invalid data from reaching the backend. For example, on the customer, vendor and rider login page, the system ensures that both the email and password fields are filled before allowing submission and displays error messages if either field is empty. During checkout, users are required to provide a delivery address and select a payment method before confirming their order with alerts triggered if these inputs are missing. Additionally, the system checks localStorage to ensure that user session data such as custId and custName exist to  prevent unauthorized access to restricted pages like the cart or order history same goes to vendor that also use localstorage but rider use Url Query String. These client-side validations provide immediate feedback, reduce server load and help maintain data quality.
+
+### Backend
+On the backend, several validation mechanisms are implemented to ensure data integrity, user security, and proper system behavior. First, unique email checks are enforced during registration for all user types in our system such as customers, vendors, and riders by querying the database to verify that the email does not already exist. This prevents duplicate accounts and maintains user uniqueness. To safeguard against SQL injection attacks, all SQL queries use prepared statements rather than direct string combination, ensuring that input parameters are securely handled and not executed as part of the SQL query itself. Additionally, proper session management is implemented to protect user access and restrict unauthorized entry to secure pages. When a user successfully logs in, relevant session attributes (such as riderID and riderName) are stored in the session object. Each protected page includes checks to verify the presence of a valid session and user identity before granting access.
 
