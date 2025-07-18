@@ -29,15 +29,11 @@ The frontend was developed using standard web technologies such as HTML, CSS and
 
 The frontend communicates with the backend by calling dedicated REST API endpoints. For example:
 
-  > To authenticate the customer, it sends a POST request to /api/login.
-
-  > To fetch the list of vendors, it calls GET /api/vendors.
-
-  > To retrieve products of a selected vendor, it sends a GET request to /api/vendor/products?vendorId=....
-
-  > When confirming an order, it sends order details using POST /api/orders.
-
-  > For displaying the customer's past orders, it requests GET /api/customer/orders?custId=....
+   - To authenticate the customer, it sends a POST request to /api/login.
+   -  To fetch the list of vendors, it calls GET /api/vendors.
+   -  To retrieve products of a selected vendor, it sends a GET request to /api/vendor/products?vendorId=....
+   -  When confirming an order, it sends order details using POST /api/orders.
+   -  For displaying the customer's past orders, it requests GET /api/customer/orders?custId=....
 
 All these interactions are handled using JavaScript's fetch() function and the responses are processed dynamically to update the user interface.
 
@@ -62,9 +58,17 @@ The system’s database is designed based on normalized relational principles to
 - Delivery – records delivery status for each order
 
 Each table includes primary and foreign keys to establish one-to-many relationships, such as:
+   - Each customer can places many orders, but each order can only be placed by one customer.
+   - Customer can own one cart.
+   - Each cart can add many products, but each product can be added to one cart,
+   - Each vendor can prepares many orders from customers, and each orders can be prepared by many vendors.
+   - Each vendor can sells many products, but each product can be sold by one vendor.
+   - Each rider can handles many delivery, but each delivery can be handled by one rider.
+   - Each delivery is associated with many orders, but each order is associate with one delivery.
 
 The OrderItem table acts as a bridge table between the Order and Product entities. This enables us to track multiple products within a single order and capture vendor information, quantities, and item statuses individually.
 
+# Business Logic and Data Validation
 
 ## Use case
 ![eBazaar Use Case](UseCase.jpg)
