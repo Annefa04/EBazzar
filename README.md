@@ -132,14 +132,14 @@ Content-Type: application/json
 }
 ```
 
-  - HTTP Method:GET
+  - HTTP Method: GET
 
 **Parameters:**
 ```
 custId=1
 ```
 
-  - HTTP Method:PUT
+  - HTTP Method: PUT
 
 **Headers:**
 ```
@@ -155,7 +155,7 @@ Content-Type: application/json
 }
 ```
     
-  - HTTP Method:DELETE
+  - HTTP Method: DELETE
 
 **Headers:**
 ```
@@ -170,9 +170,24 @@ Content-Type: application/json
 }
 ```
 
-    
 - API: /api/delivery
   - HTTP Method: POST
+    
+ **Headers:**
+```
+Content-Type: application/json;charset=UTF-8
+```
+
+**Body Format:**
+```json
+{
+  "address": "123 Jalan Bunga Raya, Melaka",
+  "deliveryType": "Express",
+  "paymentMethod": "Cash",
+  "custId": 3
+}
+```
+    
 - API: /api/customer/orders
   - HTTP Method: GET
 - API: /api/order
