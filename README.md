@@ -37,6 +37,23 @@ The frontend communicates with the backend by calling dedicated REST API endpoin
 
 All these interactions are handled using JavaScript's fetch() function and the responses are processed dynamically to update the user interface.
 
+### 2) Vendor Frontend
+   The vendor‑owner frontend is a web application that empowers individual stall owners to manage every stage of their online bazaar presence. After authentication, a vendor lands on an intuitive dashboard that immediately greets them by name and lists all incoming pre‑orders filtered to their Vend_ID.
+
+One of the core functions is the real-time preorder queue. Orders arrive with the status Pending and are displayed in a Bootstrap‑styled table. Vendors can update the status of each order using action buttons such as "Preparing", "Ready for Pickup", or "Rejected". These buttons trigger a fetch() POST request to /updateItemStatus, which ensures that riders and customers receive live updates on order progress.
+
+The frontend communicates with the backend by calling dedicated REST API endpoints. For example:
+
+   > To authenticate the vendor, it sends a POST request to /api/loginvendor with the vendor’s email and password. On success, it stores vendName and vendId in localStorage.
+
+   > To fetch the list of preorders assigned to the logged-in vendor, it sends a GET request to /vendor/viewOrderVendor?vendId=.... The response contains a JSON object with an array of order items filtered by that vendor ID.
+
+   > To update the status of a specific order item (e.g., "Preparing", "Ready for Pickup", or "Rejected"), the vendor UI sends a POST request to /updateItemStatus with the body parameters orderItemId and status.
+
+All these interactions are handled using JavaScript’s fetch() function. The frontend processes the responses dynamically, refreshing the table and displaying alerts without reloading the page. Vendor login persistence is maintained using localStorage, and each operation is secured by backend session validation (vendId), ensuring that vendors can only manage their own orders.
+
+### 3) Rider Frontend
+
 # Database Design
 ## Entity-Relationship Diagram (ERD)
 ![eBazaar ERD](ERDeBazaar.jpg)
@@ -65,8 +82,9 @@ Each table includes primary and foreign keys to establish one-to-many relationsh
    - Each vendor can sells many products, but each product can be sold by one vendor.
    - Each rider can handles many delivery, but each delivery can be handled by one rider.
    - Each delivery is associated with many orders, but each order is associate with one delivery.
+   - Each product can be include in many orders, and each orders can include many products.
 
-The OrderItem table acts as a bridge table between the Order and Product entities. This enables us to track multiple products within a single order and capture vendor information, quantities, and item statuses individually.
+The OrderItem table acts as a bridge table between the Order and Product entities & Order and Vendor entities. This enables us to track multiple products within a single order and capture vendor information, quantities, and item statuses individually.
 
 # Business Logic and Data Validation
 
