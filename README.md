@@ -203,6 +203,17 @@ Content-Type: application/json;charset=UTF-8
 
 - API: /api/order
   - HTTP Method: POST
+**Parameters:**
+```
+deliveryId: 17
+riderId: 4      <-- optional if riderId exists in session
+
+```
+
+**Headers:**
+```
+Content-Type: application/json;charset=UTF-8
+```
 - API: /api/products
   - HTTP Method: GET
 - API: /updateDeliveryStatus
