@@ -40,6 +40,7 @@ Overall, the use of ORS elevates the eBazaar project from a basic online store t
 ## API Endpoint
 - API: /api/login
   - HTTP Method: GET
+
 **Parameters:**
 - `email`: ahmad.ismail@gmail.com 
 - `password`: ahmad123
@@ -59,6 +60,7 @@ Content-Type: application/json;charset=UTF-8
     
 - API: /api/loginrider
   - HTTP Method: GET
+
 **Parameters:**
 - `email`: ali.rider@gmail.com  
 - `password`: ali123
@@ -78,6 +80,7 @@ Content-Type: application/json;charset=UTF-8
 
 - API: /api/loginvendor
   - HTTP Method: GET
+
 **Parameters:**
 - `email`: aromawangi.perfume@gmail.com  
 - `password`: wangipassword123
@@ -97,6 +100,7 @@ Content-Type: application/json;charset=UTF-8
 
 - API: /acceptOrder
   - HTTP Method: POST
+
 **Parameters:**
   - deliveryId: Integer (required)
   - riderId: Integer (optional – only for testing without session)
@@ -113,6 +117,7 @@ deliveryId=1&riderId=2
     
 - API: /api/cart
   - HTTP Method: POST
+
 **Headers:**
 ```
 Content-Type: application/json
@@ -128,12 +133,14 @@ Content-Type: application/json
 ```
 
   - HTTP Method:GET
+
 **Parameters:**
 ```
 custId=1
 ```
 
   - HTTP Method:PUT
+
 **Headers:**
 ```
 Content-Type: application/json
@@ -149,6 +156,7 @@ Content-Type: application/json
 ```
     
   - HTTP Method:DELETE
+
 **Headers:**
 ```
 Content-Type: application/json
