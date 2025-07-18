@@ -43,7 +43,7 @@ All these interactions are handled using JavaScript's fetch() function and the r
 
 # Database Design
 ## Entity-Relationship Diagram (ERD)
-
+![eBazaar ERD](EBaazar.jpg)
 
 ## Use case
 ![eBazaar Use Case](UseCase.jpg)
