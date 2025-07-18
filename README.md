@@ -204,20 +204,31 @@ Content-Type: application/json;charset=UTF-8
 - API: /api/order
   - HTTP Method: POST
 
-**Parameters:**
+**Headers:**
 ```
-deliveryId: 17
-riderId: 4      <-- optional if riderId exists in session
+Content-Type: application/json;charset=UTF-8
+```
 
+**Body Format:**
+```json
+{
+  "custId": 3,
+  "deliveryId": 17
+}
+```
+
+- API: /api/products
+  - HTTP Method: GET
+
+ **Parameters:**
+```
+vendorId: 5
 ```
 
 **Headers:**
 ```
 Content-Type: application/json;charset=UTF-8
 ```
-- API: /api/products
-  - HTTP Method: GET
-
 
 - API: /updateDeliveryStatus
   - HTTP Method: POST
@@ -233,6 +244,7 @@ riderId: 4      <-- optional if riderId exists in session
 ```
 Content-Type: application/json;charset=UTF-8
 ```
+
 - API: /updateItemStatus
   - HTTP Method: POST
  
