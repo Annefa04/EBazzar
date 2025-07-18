@@ -26,7 +26,8 @@ Overall, the use of ORS elevates the eBazaar project from a basic online store t
 
 # System Architecture
 ### High Level Diagram 
-![High Level Diagram](High Level Diagram eBazaar.jpg)
+![eBazaar High Level Diagram](High Level Diagram eBazaar.jpg)
+
 ## Backend Application
 # Technology Stack
 - Language: Java
