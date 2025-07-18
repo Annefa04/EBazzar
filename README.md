@@ -203,6 +203,7 @@ Content-Type: application/json;charset=UTF-8
 
 - API: /api/order
   - HTTP Method: POST
+
 **Parameters:**
 ```
 deliveryId: 17
@@ -216,16 +217,59 @@ Content-Type: application/json;charset=UTF-8
 ```
 - API: /api/products
   - HTTP Method: GET
+
+
 - API: /updateDeliveryStatus
   - HTTP Method: POST
+
+  **Parameters:**
+```
+deliveryId: 17
+riderId: 4      <-- optional if riderId exists in session
+
+```
+
+**Headers:**
+```
+Content-Type: application/json;charset=UTF-8
+```
 - API: /updateItemStatus
   - HTTP Method: POST
+ 
+  **Parameters:**
+```
+orderItemId: 123
+status: Ready for Pickup
+vendId: 5    <-- optional if vendId exists in session
+
+```
+
+**Headers:**
+```
+Content-Type: application/json;charset=UTF-8
+```
 - API: /api/vendors
   - HTTP Method: GET
+
+**Headers:**
+```
+Content-Type: application/json;charset=UTF-8
+```
 - API: /api/viewdelivery
   - HTTP Method: GET
+
+**Headers:**
+```
+Content-Type: application/json;charset=UTF-8
+```
+
 - API: /vendor/viewOrderVendor
   - HTTP Method: GET
+ 
+**Headers:**
+```
+Content-Type: application/json;charset=UTF-8
+```
 
 ## Example Success and Error Responses
 
