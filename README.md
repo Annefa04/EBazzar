@@ -81,20 +81,15 @@ All these interactions are handled using JavaScript’s fetch() function. The fr
 ### 3) Rider Frontend
 The rider-facing frontend is a web application designed specifically for delivery personnel to efficiently manage and track their assigned deliveries. Upon successful login, riders are welcomed on a personalized dashboard that displays two primary sections:
 
-New Orders to Accept (orders with status "Pending" and riderId = null)
-
-My Deliveries (orders already assigned to the logged-in rider)
-
-Each delivery entry is presented in a responsive Bootstrap-styled table, showing order details such as order ID, customer name, status, and delivery address. Riders can interact with action buttons like "Accept Order" and "Update Delivery Status" (e.g., to mark an order as  Transit, or Delivered). These buttons send asynchronous fetch() POST requests to the backend API.
+  - New Orders to Accept (orders with status "Pending" and riderId = null)
+  - My Deliveries (orders already assigned to the logged-in rider)
+  - Each delivery entry is presented in a responsive Bootstrap-styled table, showing order details such as order ID, customer name, status, and delivery address. Riders can interact with action buttons like "Accept Order" and "Update Delivery Status" (e.g., to mark an order as  Transit, or Delivered). These buttons send asynchronous fetch() POST requests to the backend API.
 
 The frontend communicates with the backend by calling dedicated REST API endpoints. For example:
-   -Login: A POST request is sent to /api/loginrider with the rider’s email and password. On success, riderName and riderId are stored in    sessionStorage, ensuring secure and personalized access to delivery data.
-
-   -View Deliveries: A GET request is sent to /api/viewdelivery. The frontend filters the results using the riderId from sessionStorage       to differentiate between unassigned and assigned orders.
-
-   -Accept Order: When the rider clicks “Accept Order”, a POST request is sent to /acceptOrder with parameters deliveryId and             riderId. The backend then assigns the rider to that delivery.
-
-   -Update Delivery Status: To mark the delivery status (e.g., "Transit", "Delivered"), a POST request is sent to /updateDeliveryStatus          with deliveryId and the new deliveryStatus.
+   - Login: A POST request is sent to /api/loginrider with the rider’s email and password. On success, riderName and riderId are stored in sessionStorage, ensuring secure and personalized access to delivery data.
+   - View Deliveries: A GET request is sent to /api/viewdelivery. The frontend filters the results using the riderId from sessionStorage to differentiate between unassigned and assigned orders.
+   - Accept Order: When the rider clicks “Accept Order”, a POST request is sent to /acceptOrder with parameters deliveryId and riderId. The backend then assigns the rider to that delivery.
+   - Update Delivery Status: To mark the delivery status (e.g., "Transit", "Delivered"), a POST request is sent to /updateDeliveryStatus with deliveryId and the new deliveryStatus.
 
 These operations are handled using JavaScript’s fetch() function. The user interface updates dynamically without page reloads—ensuring a fast, responsive experience. Riders are only shown and allowed to interact with deliveries assigned to them, thanks to backend-side validation using the riderId.
 
