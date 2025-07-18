@@ -102,7 +102,7 @@ Persistent state is maintained via sessionStorage, and all sensitive actions are
 
 # Database Design
 ## Entity-Relationship Diagram (ERD)
-![eBazaar ERD](eBazaar.jpg)
+![eBazaar ERD](eBazaarERD.jpg)
 
 ## Schema Justification
 The system’s database is designed based on normalized relational principles to avoid data redundancy and ensure data consistency. The database consists of several main tables, including:
