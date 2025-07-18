@@ -75,6 +75,7 @@ Content-Type: application/json;charset=UTF-8
   "password": "ali123"
 }
 ```
+
 - API: /api/loginvendor
   - HTTP Method: GET
 **Parameters:**
@@ -93,10 +94,75 @@ Content-Type: application/json;charset=UTF-8
   "password": "wangipassword123"
 }
 ```
+
 - API: /acceptOrder
   - HTTP Method: POST
+**Parameters:**
+  - deliveryId: Integer (required)
+  - riderId: Integer (optional – only for testing without session)
+
+**Headers:**
+```
+Content-Type: application/x-www-form-urlencoded
+```
+
+**Body Format:**
+```
+deliveryId=1&riderId=2
+```
+    
 - API: /api/cart
-  - HTTP Method: POST, GET, DELETE, PUT
+  - HTTP Method: POST
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Body Format:**
+```json
+{
+  "custId": 1,
+  "productId": 101,
+  "quantity": 2
+}
+```
+
+  - HTTP Method:GET
+**Parameters:**
+```
+custId=1
+```
+
+  - HTTP Method:PUT
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Body Format:**
+```json
+{
+  "custId": 1,
+  "productId": 101,
+  "quantity": 3
+}
+```
+    
+  - HTTP Method:DELETE
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Body Format:**
+```json
+{
+  "custId": 1,
+  "productId": 101
+}
+```
+
+    
 - API: /api/delivery
   - HTTP Method: POST
 - API: /api/customer/orders
