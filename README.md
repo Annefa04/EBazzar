@@ -41,6 +41,9 @@ The frontend communicates with the backend by calling dedicated REST API endpoin
 
 All these interactions are handled using JavaScript's fetch() function and the responses are processed dynamically to update the user interface.
 
+# Database Design
+### Entity-Relationship Diagram (ERD)
+![eBazaar ERD](eBazaar.jpg)
 
 # Data Validation
 
