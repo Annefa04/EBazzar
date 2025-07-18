@@ -43,9 +43,9 @@ All these interactions are handled using JavaScript's fetch() function and the r
 
 The system’s database is designed based on normalized relational principles to avoid data redundancy and ensure data consistency. The database consists of several main tables, including:
 
-- Customer – stores customer details (ID, name, email, password)
+- Customer – stores customer details
 
-- Vendor – stores vendor details (ID, name, email)
+- Vendor – stores vendor details
 
 - Product – stores products offered by vendors
 
